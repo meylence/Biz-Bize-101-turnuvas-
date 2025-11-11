@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Biz Bize 101 Turnavası</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Biz Bize 101 Turnavası</h1>
+
+      <section class="section">
+        <h2>Oyuncular & Oranlar</h2>
+        <table id="playersTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Oyuncu</th>
+              <th>Oran</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>Bahis Yap</h2>
+        <form id="betForm">
+          <div class="grid">
+            <label>
+              Adınız
+              <input type="text" id="firstName" required />
+            </label>
+            <label>
+              Soyadınız
+              <input type="text" id="lastName" required />
+            </label>
+            <label>
+              Oyuncu
+              <select id="playerSelect" required></select>
+            </label>
+            <label>
+              Tutar (TL)
+              <input type="number" id="amount" min="1" step="1" required />
+            </label>
+          </div>
+          <div class="payout">
+            Tahmini Kazanç: <span id="payout">0</span> TL
+          </div>
+          <button type="submit">Bahis Yap</button>
+        </form>
+        <div id="betStatus" class="status"></div>
+      </section>
+
+      <section class="section">
+        <h2>Yapılan Bahisler</h2>
+        <table id="betsTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Bahis Yapan</th>
+              <th>Oyuncu</th>
+              <th>Oran</th>
+              <th>Miktar (TL)</th>
+              <th>Tahmini Kazanç (TL)</th>
+              <th>Zaman</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
