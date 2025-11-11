@@ -1,8 +1,6 @@
 const Database = require("better-sqlite3");
 
-const db = new Database(
-  pathJoin("https://93fd1bqlftu6xjna.public.blob.vercel-storage.com/data.db")
-);
+const db = new Database(pathJoin("data.db"));
 
 function pathJoin(file) {
   // Ensure DB file resolves relative to project root
