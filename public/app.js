@@ -1,15 +1,15 @@
-const playersTableBody = document.querySelector('#playersTable tbody');
-const betsTableBody = document.querySelector('#betsTable tbody');
-const playerSelect = document.querySelector('#playerSelect');
-const amountInput = document.querySelector('#amount');
-const payoutEl = document.querySelector('#payout');
-const betForm = document.querySelector('#betForm');
-const betStatus = document.querySelector('#betStatus');
+const playersTableBody = document.querySelector("#playersTable tbody");
+const betsTableBody = document.querySelector("#betsTable tbody");
+const playerSelect = document.querySelector("#playerSelect");
+const amountInput = document.querySelector("#amount");
+const payoutEl = document.querySelector("#payout");
+const betForm = document.querySelector("#betForm");
+const betStatus = document.querySelector("#betStatus");
 
 let players = [];
 
 async function fetchPlayers() {
-  const res = await fetch('/api/players');
+  const res = await fetch("/api/players");
   players = await res.json();
   renderPlayers();
   renderPlayerOptions();
@@ -17,15 +17,15 @@ async function fetchPlayers() {
 }
 
 async function fetchBets() {
-  const res = await fetch('/api/bets');
+  const res = await fetch("/api/bets");
   const bets = await res.json();
   renderBets(bets);
 }
 
 function renderPlayers() {
-  playersTableBody.innerHTML = '';
+  playersTableBody.innerHTML = "";
   for (const p of players) {
-    const tr = document.createElement('tr');
+    const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${p.id}</td>
       <td>${p.name}</td>
@@ -36,9 +36,9 @@ function renderPlayers() {
 }
 
 function renderPlayerOptions() {
-  playerSelect.innerHTML = '';
+  playerSelect.innerHTML = "";
   for (const p of players) {
-    const opt = document.createElement('option');
+    const opt = document.createElement("option");
     opt.value = p.id;
     opt.textContent = `${p.name} (x${p.odds})`;
     playerSelect.appendChild(opt);
@@ -49,46 +49,47 @@ function updatePayout() {
   const playerId = Number(playerSelect.value);
   const amount = Number(amountInput.value || 0);
   const player = players.find((p) => p.id === playerId);
-  const payout = player ? (amount * player.odds) : 0;
+  const payout = player ? amount * player.odds : 0;
   payoutEl.textContent = payout.toFixed(2);
 }
 
-playerSelect.addEventListener('change', updatePayout);
-amountInput.addEventListener('input', updatePayout);
+playerSelect.addEventListener("change", updatePayout);
+amountInput.addEventListener("input", updatePayout);
 
-betForm.addEventListener('submit', async (e) => {
+betForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  betStatus.textContent = '';
-  betStatus.className = 'status';
+  betStatus.textContent = "";
+  betStatus.className = "status";
   const payload = {
-    firstName: document.querySelector('#firstName').value.trim(),
-    lastName: document.querySelector('#lastName').value.trim(),
+    firstName: document.querySelector("#firstName").value.trim(),
+    lastName: document.querySelector("#lastName").value.trim(),
     playerId: Number(playerSelect.value),
     amount: Number(amountInput.value),
   };
   try {
-    const res = await fetch('/api/bets', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("/api/bets", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Failed to place bet');
-    betStatus.textContent = 'Bet placed successfully!';
-    betStatus.className = 'status success';
+    if (!res.ok) throw new Error(data.error || "Failed to place bet");
+    betStatus.textContent = "Bahsiniz Başarıyla Kaydedildi!";
+    betStatus.className = "status success";
     betForm.reset();
     updatePayout();
     await fetchBets();
   } catch (err) {
-    betStatus.textContent = err.message || 'Error placing bet';
-    betStatus.className = 'status error';
+    betStatus.textContent =
+      err.message || "Bahis Kaydedilirken Bir Hata Oluştu!";
+    betStatus.className = "status error";
   }
 });
 
 function renderBets(bets) {
-  betsTableBody.innerHTML = '';
+  betsTableBody.innerHTML = "";
   for (const b of bets) {
-    const tr = document.createElement('tr');
+    const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${b.id}</td>
       <td>${b.firstName} ${b.lastName}</td>
